@@ -66,7 +66,16 @@ exports.loginUser = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
-    res.status(200).json(user);
+    const userToken = { id: user._id };
+    const token = jwt.sign(userToken, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 3600000,
+      secure: process.env.NODE_ENV === "production",
+    });
+    res.status(200).json({ message: "User logged in successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
