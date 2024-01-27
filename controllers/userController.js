@@ -2,6 +2,7 @@
 const UserModel = require("../models/userModel");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 exports.createUser = async (req, res) => {
   try {
@@ -41,7 +42,9 @@ exports.createUser = async (req, res) => {
     });
 
     await newUser.save();
-    res.status(201).json(newUser);
+    res
+      .status(201)
+      .json({ message: "User created successfully", redirect: "/users/login" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -75,7 +78,9 @@ exports.loginUser = async (req, res) => {
       maxAge: 3600000,
       secure: process.env.NODE_ENV === "production",
     });
-    res.status(200).json({ message: "User logged in successfully" });
+    res
+      .status(200)
+      .json({ message: "User logged in successfully", redirect: "/" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -11,6 +11,7 @@ const path = require("path");
 router.get("/", (req, res) => {
   renderWithLayout(
     path.join(__dirname, "../views/users/new.ejs"),
+    {},
     "Create a new user",
     res
   );
@@ -46,6 +47,7 @@ router.post(
 router.get("/login", (req, res) => {
   renderWithLayout(
     path.join(__dirname, "../views/users/login.ejs"),
+    {},
     "Login",
     res
   );

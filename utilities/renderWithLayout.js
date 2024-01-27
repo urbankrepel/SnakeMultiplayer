@@ -2,8 +2,17 @@ const path = require("path");
 const fs = require("fs");
 const ejs = require("ejs");
 
-function renderWithLayout(contentFilePath, title, res) {
-  const content = fs.readFileSync(contentFilePath, "utf8");
+async function renderWithLayout(contentFilePath, data = {}, title, res) {
+  // const content = render cotent with ejs
+  const content = await new Promise((resolve, reject) => {
+    ejs.renderFile(contentFilePath, data, (err, html) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(html);
+      }
+    });
+  });
 
   ejs.renderFile(
     path.join(__dirname, "../views/layout.ejs"),

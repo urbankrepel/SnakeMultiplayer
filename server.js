@@ -1,6 +1,7 @@
 // server.js
 const express = require("express");
 const userRoutes = require("./routes/userRoutes");
+const homeRoutes = require("./routes/homeRoutes");
 const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
@@ -14,6 +15,7 @@ app.set("view engine", "ejs");
 app.use(cookieParser());
 app.use(express.json()); // Used to parse JSON bodies
 app.use("/users", userRoutes);
+app.use("/", homeRoutes);
 app.use(express.static("public"));
 
 const PORT = process.env.PORT || 3000;

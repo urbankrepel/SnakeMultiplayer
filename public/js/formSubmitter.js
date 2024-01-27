@@ -15,8 +15,9 @@ const submitForm = (event, form) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
-      if (data.message) {
+      if (data.redirect) {
+        window.location.href = data.redirect;
+      } else if (data.message) {
         form.querySelector("#message").innerText = data.message;
       }
     })
