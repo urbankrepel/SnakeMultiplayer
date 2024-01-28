@@ -17,8 +17,9 @@ exports.init = () => {
 
 exports.playerJoin = (name, socketId, userId) => {
   const player = new playerModel(name, socketId, userId);
-  player.x = Math.floor(Math.random() * worldSize - 20) + 10;
-  player.y = Math.floor(Math.random() * worldSize - 20) + 10;
+  const randomLocation = this.randomLocation();
+  player.x = randomLocation.x;
+  player.y = randomLocation.y;
 
   players.push(player);
   return player;
@@ -44,8 +45,8 @@ exports.getVisibleAreaForPlayer = (player) => {
   const worldSize = this.getWorldSize(); // Total world size
 
   // Calculate the area bounds based on the player's position
-  let minX = Math.max(player.x - viewSize / 2, 0);
-  let minY = Math.max(player.y - viewSize / 2, 0);
+  let minX = Math.max(player.x - viewSize / 2, -20);
+  let minY = Math.max(player.y - viewSize / 2, -20);
   let maxX = Math.min(player.x + viewSize / 2, worldSize);
   let maxY = Math.min(player.y + viewSize / 2, worldSize);
 
@@ -113,7 +114,7 @@ const getObjectsInArea = (minX, minY, maxX, maxY, currentPlayer) => {
 exports.playerMove = (socketId, data) => {
   const direction = data.direction;
   const player = players.find((player) => player.socketId === socketId);
-  const moveDistance = player.size;
+  const moveDistance = player.size / 2;
   const foodEaten = food.find((foodItem) => {
     return (
       player.x + moveDistance >= foodItem.x &&
@@ -142,9 +143,7 @@ exports.playerMove = (socketId, data) => {
 exports.generateFood = () => {
   const food = [];
   for (let i = 0; i < 100; i++) {
-    const x = Math.floor(Math.random() * worldSize - 20) + 10;
-    const y = Math.floor(Math.random() * worldSize - 20) + 10;
-    food.push({ x, y });
+    food.push(this.randomLocation());
   }
   return food;
 };
@@ -155,4 +154,10 @@ exports.setUserToPlayer = async (socketId, userId) => {
   const user = await UserModel.findById(userId);
   player.name = user.username;
   return player;
+};
+
+exports.randomLocation = () => {
+  const x = Math.floor(Math.random() * (worldSize - 30)) + 20;
+  const y = Math.floor(Math.random() * (worldSize - 30)) + 20;
+  return { x, y };
 };
