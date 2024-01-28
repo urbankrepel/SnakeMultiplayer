@@ -1,7 +1,21 @@
 let socket;
 let direction = "right";
 
+let snakeHeadAsset;
+let snakeBodyAsset;
+let otherSnakeHeadAsset;
+let otherSnakeBodyAsset;
+let foodAsset;
+
 let frameMove = 0;
+
+function preload() {
+  snakeHeadAsset = loadImage("/images/snake_green_head_32.png");
+  snakeBodyAsset = loadImage("/images/snake_green_blob_32.png");
+  otherSnakeHeadAsset = loadImage("/images/snake_yellow_head_32.png");
+  otherSnakeBodyAsset = loadImage("/images/snake_yellow_blob_32.png");
+  foodAsset = loadImage("/images/apple_alt_32.png");
+}
 
 function setup() {
   createCanvas(1000, 1000);
@@ -34,10 +48,12 @@ function move(direction) {
 }
 
 function socketConnect() {
+  const userId = document.getElementById("userId").value;
   socket = io.connect("http://localhost:3000");
 
   socket.on("connect", () => {
     console.log("Connected");
+    socket.emit("setUserToPlayer", userId);
   });
 
   socket.on("visibleArea", (visibleArea, socketId) => {
@@ -53,13 +69,15 @@ renderVisibleArea = (visibleArea) => {
   fill(255);
   const player = visibleArea.playerPosition;
   for (let i = 0; i < player.length; i++) {
-    if (i === 0) {
-      fill(0, 0, 255);
-    } else {
-      fill(255, 0, 0);
-    }
     const pos = player.body[i];
-    ellipse(pos.x - offset.x, pos.y - offset.y, 20, 20);
+    if (i === 0) {
+      image(snakeHeadAsset, pos.x - offset.x, pos.y - offset.y, 20, 20);
+      // text under the head
+      fill(255);
+      text(player.username, pos.x - offset.x, pos.y - offset.y + 35);
+    } else {
+      image(snakeBodyAsset, pos.x - offset.x, pos.y - offset.y, 20, 20);
+    }
   }
 
   // Render the objects
@@ -70,11 +88,31 @@ renderVisibleArea = (visibleArea) => {
       fill(255, 0, 0);
       for (let j = 0; j < object.length; j++) {
         const pos = object.body[j];
-        ellipse(pos.x - offset.x, pos.y - offset.y, 20, 20);
+        if (j === 0) {
+          image(
+            otherSnakeHeadAsset,
+            pos.x - offset.x,
+            pos.y - offset.y,
+            20,
+            20
+          );
+          // text under the head
+          fill(255);
+          text(object.username, pos.x - offset.x, pos.y - offset.y + 35);
+        } else {
+          image(
+            otherSnakeBodyAsset,
+            pos.x - offset.x,
+            pos.y - offset.y,
+            20,
+            20
+          );
+        }
       }
     } else if (object.type === "food") {
       fill(0, 255, 0);
-      ellipse(object.x - offset.x, object.y - offset.y, 5, 5);
+      // ellipse(object.x - offset.x, object.y - offset.y, 5, 5);
+      image(foodAsset, object.x - offset.x, object.y - offset.y, 10, 10);
     }
   }
 };

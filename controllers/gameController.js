@@ -1,4 +1,5 @@
 const playerModel = require("../models/playerModel");
+const UserModel = require("../models/userModel");
 
 const players = [];
 let food = [];
@@ -20,7 +21,6 @@ exports.playerJoin = (name, socketId, userId) => {
   player.y = Math.floor(Math.random() * worldSize - 20) + 10;
 
   players.push(player);
-  console.log(players);
   return player;
 };
 
@@ -58,6 +58,7 @@ exports.getVisibleAreaForPlayer = (player) => {
       y: minY,
     },
     playerPosition: {
+      username: player.name,
       x: player.x,
       y: player.y,
       body: player.body,
@@ -80,7 +81,7 @@ const getObjectsInArea = (minX, minY, maxX, maxY, currentPlayer) => {
     if (isVisible) {
       objects.push({
         type: "player",
-        name: player.name,
+        username: player.name,
         x: player.x,
         y: player.y,
         body: player.body,
@@ -146,4 +147,12 @@ exports.generateFood = () => {
     food.push({ x, y });
   }
   return food;
+};
+
+exports.setUserToPlayer = async (socketId, userId) => {
+  const player = players.find((player) => player.socketId === socketId);
+  player.userId = userId;
+  const user = await UserModel.findById(userId);
+  player.name = user.username;
+  return player;
 };
