@@ -1,8 +1,18 @@
+const gameController = require("./gameController");
+
 const socketController = (io) => {
+  gameController.init();
   io.on("connection", (socket) => {
-    console.log("New client connected");
+    gameController.playerJoin("Player", socket.id, socket.id);
+    socket.on("playerMove", (data) => {
+      gameController.playerMove(socket.id, data);
+      // send to this player new visible area
+      const player = gameController.getPlayer(socket.id);
+      const visibleArea = gameController.getVisibleAreaForPlayer(player);
+      socket.emit("visibleArea", visibleArea, socket.id);
+    });
     socket.on("disconnect", () => {
-      console.log("Client disconnected");
+      gameController.playerLeave(socket.id);
     });
   });
 };
