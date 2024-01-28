@@ -18,6 +18,8 @@ class PlayerModel {
   }
 
   move(newX, newY, eat) {
+    let xDiff = 0;
+    let yDiff = 0;
     if (
       newX < 0 ||
       newY < 0 ||
@@ -38,22 +40,12 @@ class PlayerModel {
   }
 
   isVisible(minX, minY, maxX, maxY) {
-    if (
-      this.x >= minX &&
-      this.x <= maxX &&
-      this.y >= minY &&
-      this.y <= maxY
-    ) {
+    if (this.x >= minX && this.x <= maxX && this.y >= minY && this.y <= maxY) {
       return true;
     }
     for (let i = 0; i < this.body.length; i++) {
       const pos = this.body[i];
-      if (
-        pos.x >= minX &&
-        pos.x <= maxX &&
-        pos.y >= minY &&
-        pos.y <= maxY
-      ) {
+      if (pos.x >= minX && pos.x <= maxX && pos.y >= minY && pos.y <= maxY) {
         return true;
       }
     }

@@ -4,8 +4,9 @@ let direction = "right";
 let frameMove = 0;
 
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(1000, 1000);
   background(0);
+  scale(2);
 
   socketConnect();
 }
@@ -24,6 +25,7 @@ function draw() {
     move(direction);
     frameMove = 10;
   }
+  scale(2);
   frameMove--;
 }
 
@@ -72,7 +74,7 @@ renderVisibleArea = (visibleArea) => {
       }
     } else if (object.type === "food") {
       fill(0, 255, 0);
-      ellipse(object.x - offset.x, object.y - offset.y, 20, 20);
+      ellipse(object.x - offset.x, object.y - offset.y, 5, 5);
     }
   }
 };

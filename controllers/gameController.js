@@ -16,8 +16,8 @@ exports.init = () => {
 
 exports.playerJoin = (name, socketId, userId) => {
   const player = new playerModel(name, socketId, userId);
-  player.x = Math.floor(Math.random() * 9980) + 10;
-  player.y = Math.floor(Math.random() * 9980) + 10;
+  player.x = Math.floor(Math.random() * worldSize - 20) + 10;
+  player.y = Math.floor(Math.random() * worldSize - 20) + 10;
 
   players.push(player);
   console.log(players);
@@ -141,8 +141,8 @@ exports.playerMove = (socketId, data) => {
 exports.generateFood = () => {
   const food = [];
   for (let i = 0; i < 100; i++) {
-    const x = Math.floor(Math.random() * 9980) + 10;
-    const y = Math.floor(Math.random() * 9980) + 10;
+    const x = Math.floor(Math.random() * worldSize - 20) + 10;
+    const y = Math.floor(Math.random() * worldSize - 20) + 10;
     food.push({ x, y });
   }
   return food;
