@@ -1,20 +1,18 @@
-let snake;
 let worldOffsetX = 0;
 let worldOffsetY = 0;
+let socket;
 
 function setup() {
-  createCanvas(600, 600);
-  snake = new Snake();
+  createCanvas(1000, 1000);
+  background(0);
+
+  socketConnect();
 }
 
 function draw() {
   background(0);
-  //translate(width / 2, height / 2); // Always keep snake in the center
-  drawWorld();
-  snake.display();
 }
 
-function drawWorld() {
-  // Draw the world, food, and obstacles here
-  // All positions should be offset by worldOffsetX and worldOffsetY
+function socketConnect() {
+  socket = io.connect("http://localhost:3000");
 }
