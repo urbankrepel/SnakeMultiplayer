@@ -5,9 +5,12 @@ const socketController = (io) => {
   io.on("connection", (socket) => {
     gameController.playerJoin("Player", socket.id, socket.id);
     socket.on("playerMove", (data) => {
-      gameController.playerMove(socket.id, data);
+      const isDead = gameController.playerMove(socket.id, data);
       const player = gameController.getPlayer(socket.id);
-      const visibleArea = gameController.getVisibleAreaForPlayer(player);
+      const visibleArea = gameController.getVisibleAreaForPlayer(
+        player,
+        isDead
+      );
       socket.emit("visibleArea", visibleArea, socket.id);
     });
     socket.on("setUserToPlayer", (userId) => {

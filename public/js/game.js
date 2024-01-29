@@ -2,8 +2,10 @@ let socket;
 let direction = "right";
 
 let snakeHeadAsset;
+let snakeDeadHeadAsset;
 let snakeBodyAsset;
 let otherSnakeHeadAsset;
+let otherSnakeDeadHeadAsset;
 let otherSnakeBodyAsset;
 let foodAsset;
 let borderHorizontalAsset;
@@ -13,8 +15,10 @@ let frameMove = 0;
 
 function preload() {
   snakeHeadAsset = loadImage("/images/snake_green_head_32.png");
+  snakeDeadHeadAsset = loadImage("/images/snake_green_xx_32.png");
   snakeBodyAsset = loadImage("/images/snake_green_blob_32.png");
   otherSnakeHeadAsset = loadImage("/images/snake_yellow_head_32.png");
+  otherSnakeDeadHeadAsset = loadImage("/images/snake_yellow_xx_32.png");
   otherSnakeBodyAsset = loadImage("/images/snake_yellow_blob_32.png");
   foodAsset = loadImage("/images/apple_alt_32.png");
   borderHorizontalAsset = loadImage("/images/wall_block_32_2.png");
@@ -124,13 +128,10 @@ renderVisibleArea = (visibleArea) => {
       for (let j = object.length - 1; j >= 0; j--) {
         const pos = object.body[j];
         if (j === 0) {
-          image(
-            otherSnakeHeadAsset,
-            pos.x - offset.x,
-            pos.y - offset.y,
-            20,
-            20
-          );
+          let headAsset = object.isDead
+            ? otherSnakeDeadHeadAsset
+            : otherSnakeHeadAsset;
+          image(headAsset, pos.x - offset.x, pos.y - offset.y, 20, 20);
           // text under the head
           fill(255);
           text(object.username, pos.x - offset.x, pos.y - offset.y + 35);
@@ -157,7 +158,8 @@ renderVisibleArea = (visibleArea) => {
   for (let i = player.length - 1; i >= 0; i--) {
     const pos = player.body[i];
     if (i === 0) {
-      image(snakeHeadAsset, pos.x - offset.x, pos.y - offset.y, 20, 20);
+      let headAsset = player.isDead ? snakeDeadHeadAsset : snakeHeadAsset;
+      image(headAsset, pos.x - offset.x, pos.y - offset.y, 20, 20);
       // text under the head
       fill(255);
       text(player.username, pos.x - offset.x, pos.y - offset.y + 35);

@@ -11,6 +11,7 @@ class PlayerModel {
     this.body = [{ x: 0, y: 0 }];
     this.length = 1;
     this.size = 20;
+    this.isDead = false;
   }
 
   updateScore() {
@@ -18,15 +19,21 @@ class PlayerModel {
   }
 
   move(newX, newY, eat) {
-    let xDiff = 0;
-    let yDiff = 0;
+    if (this.isDead) {
+      return true;
+    }
+    if (this.isColliding(gameController.getPlayers(), newX, newY)) {
+      this.isDead = true;
+      return true;
+    }
     if (
       newX < 0 ||
       newY < 0 ||
       newX > gameController.getWorldSize() ||
       newY > gameController.getWorldSize()
     ) {
-      return;
+      this.isDead = true;
+      return true;
     }
     this.x = newX;
     this.y = newY;
@@ -37,6 +44,8 @@ class PlayerModel {
     } else {
       this.length++;
     }
+
+    return false;
   }
 
   isVisible(minX, minY, maxX, maxY) {
@@ -47,6 +56,34 @@ class PlayerModel {
       const pos = this.body[i];
       if (pos.x >= minX && pos.x <= maxX && pos.y >= minY && pos.y <= maxY) {
         return true;
+      }
+    }
+    return false;
+  }
+
+  isColliding(otherPlayers, newX, newY) {
+    for (let i = 0; i < otherPlayers.length; i++) {
+      const player = otherPlayers[i];
+      if (player.socketId !== this.socketId) {
+        if (
+          player.x + player.size / 2 >= newX &&
+          player.x - player.size / 2 <= newX &&
+          player.y + player.size / 2 >= newY &&
+          player.y - player.size / 2 <= newY
+        ) {
+          return true;
+        }
+        for (let j = 0; j < player.length; j++) {
+          const pos = player.body[j];
+          if (
+            pos.x + player.size / 2 >= newX &&
+            pos.x - player.size / 2 <= newX &&
+            pos.y + player.size / 2 >= newY &&
+            pos.y - player.size / 2 <= newY
+          ) {
+            return true;
+          }
+        }
       }
     }
     return false;

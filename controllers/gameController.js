@@ -36,11 +36,15 @@ exports.getPlayers = () => {
   return players;
 };
 
+exports.getAlivePlayers = () => {
+  return players.filter((player) => !player.isDead);
+};
+
 exports.getPlayer = (socketId) => {
   return players.find((player) => player.socketId === socketId);
 };
 
-exports.getVisibleAreaForPlayer = (player) => {
+exports.getVisibleAreaForPlayer = (player, isDead) => {
   const viewSize = 500; // Size of the area that the player can see
   const worldSize = this.getWorldSize(); // Total world size
 
@@ -64,6 +68,7 @@ exports.getVisibleAreaForPlayer = (player) => {
       y: player.y,
       body: player.body,
       length: player.length,
+      isDead: isDead,
     },
     objects: visibleObjects,
   };
@@ -87,6 +92,7 @@ const getObjectsInArea = (minX, minY, maxX, maxY, currentPlayer) => {
         y: player.y,
         body: player.body,
         length: player.length,
+        isDead: player.isDead,
       });
     }
   }
@@ -130,13 +136,13 @@ exports.playerMove = (socketId, data) => {
     eat = true;
   }
   if (direction === "left") {
-    player.move(player.x - moveDistance, player.y, eat);
+    return player.move(player.x - moveDistance, player.y, eat);
   } else if (direction === "right") {
-    player.move(player.x + moveDistance, player.y, eat);
+    return player.move(player.x + moveDistance, player.y, eat);
   } else if (direction === "up") {
-    player.move(player.x, player.y - moveDistance, eat);
+    return player.move(player.x, player.y - moveDistance, eat);
   } else if (direction === "down") {
-    player.move(player.x, player.y + moveDistance, eat);
+    return player.move(player.x, player.y + moveDistance, eat);
   }
 };
 
