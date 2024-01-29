@@ -5,5 +5,6 @@ const authToken = require("../middleware/authToken");
 
 // Define routes
 router.get("/", authToken, homeController.homePage);
+router.get("/home", authToken, homeController.userHomePage);
 
 module.exports = router;

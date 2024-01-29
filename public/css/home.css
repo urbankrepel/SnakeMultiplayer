@@ -1,0 +1,27 @@
+.navbar-custom {
+  background-color: #fff;
+  border-bottom: 2px solid #28a745;
+}
+.navbar-brand,
+.nav-link,
+.coins {
+  color: #28a745 !important;
+}
+.btn-play-game {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: #fff;
+}
+.btn-play-game:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+.btn-logout {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+.coins {
+  font-weight: bold;
+  margin-right: 15px; /* Space before logout button */
+}

@@ -11,3 +11,13 @@ exports.homePage = async (req, res) => {
     res
   );
 };
+
+exports.userHomePage = async (req, res) => {
+  const user = await userModel.findById(req.user.id);
+  renderWithLayout(
+    path.join(__dirname, "../views/home.ejs"),
+    { user: user },
+    "Home",
+    res
+  );
+};

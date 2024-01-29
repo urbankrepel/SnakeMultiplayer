@@ -174,7 +174,7 @@ renderVisibleArea = (visibleArea) => {
     text("You are dead", viewSize / 2 - 50, viewSize / 2);
     deadCountdown--;
     if (deadCountdown <= 0) {
-      window.location.href = "/users/login";
+      window.location.href = "/home";
     }
   }
 };
