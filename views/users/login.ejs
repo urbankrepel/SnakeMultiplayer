@@ -1,6 +1,25 @@
-<form action="/users/login" method="post" onsubmit="submitForm(event, this)">
-  <p id="message"></p>
-  <input type="email" name="email" placeholder="Email" />
-  <input type="password" name="password" placeholder="Password" />
-  <input type="submit" value="Login" />
+<form
+  action="/users/login"
+  method="post"
+  onsubmit="submitForm(event, this)"
+  class="p-4 bg-dark text-white"
+>
+  <p id="message" class="text-warning"></p>
+  <div class="form-group">
+    <input
+      type="email"
+      name="email"
+      placeholder="Email"
+      class="form-control bg-secondary text-white"
+    />
+  </div>
+  <div class="form-group">
+    <input
+      type="password"
+      name="password"
+      placeholder="Password"
+      class="form-control bg-secondary text-white"
+    />
+  </div>
+  <input type="submit" value="Login" class="btn btn-primary w-100" />
 </form>
