@@ -18,8 +18,7 @@ exports.init = () => {
 exports.playerJoin = (name, socketId, userId) => {
   const player = new playerModel(name, socketId, userId);
   const randomLocation = this.randomLocation();
-  player.x = randomLocation.x;
-  player.y = randomLocation.y;
+  player.move(randomLocation.x, randomLocation.y, false);
 
   players.push(player);
   return player;

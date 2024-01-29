@@ -1,5 +1,6 @@
 let socket;
 let direction = "right";
+let deadCountdown = 20;
 
 let snakeHeadAsset;
 let snakeDeadHeadAsset;
@@ -165,6 +166,15 @@ renderVisibleArea = (visibleArea) => {
       text(player.username, pos.x - offset.x, pos.y - offset.y + 35);
     } else {
       image(snakeBodyAsset, pos.x - offset.x, pos.y - offset.y, 20, 20);
+    }
+  }
+
+  if (player.isDead) {
+    fill(255);
+    text("You are dead", viewSize / 2 - 50, viewSize / 2);
+    deadCountdown--;
+    if (deadCountdown <= 0) {
+      window.location.href = "/users/login";
     }
   }
 };

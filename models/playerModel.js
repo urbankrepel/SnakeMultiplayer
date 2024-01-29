@@ -22,7 +22,7 @@ class PlayerModel {
     if (this.isDead) {
       return true;
     }
-    if (this.isColliding(gameController.getPlayers(), newX, newY)) {
+    if (this.isColliding(gameController.getAlivePlayers(), newX, newY)) {
       this.isDead = true;
       return true;
     }
