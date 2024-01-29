@@ -1,0 +1,35 @@
+body {
+  background-color: #f8f9fa; /* Light background color */
+  font-family: "Press Start 2P", cursive; /* Optional: Retro gaming font */
+}
+
+form {
+  max-width: 320px;
+  margin: 50px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.form-control,
+.btn-outline-success {
+  border-color: #28a745; /* Green border color */
+}
+
+.form-control:focus {
+  border-color: #218838;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.btn-outline-success {
+  color: #28a745; /* Green text for buttons */
+}
+
+.btn-outline-success:hover {
+  color: #fff;
+  background-color: #28a745;
+}
+
+/* Optional: Custom styles for labels */
+label {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
