@@ -70,4 +70,6 @@ router.post(
   userController.loginUser
 );
 
+router.get("/logout", userController.logoutUser);
+
 module.exports = router;

@@ -26,7 +26,7 @@ function preload() {
   borderVerticalAsset = loadImage("/images/wall_block_32_5.png");
 }
 
-const userScale = 2;
+let userScale = 2;
 
 function setup() {
   createCanvas(1000, 1000).parent("game-container");
