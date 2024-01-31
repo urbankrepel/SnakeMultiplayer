@@ -24,8 +24,16 @@ exports.playerJoin = (name, socketId, userId) => {
   return player;
 };
 
-exports.playerLeave = (socketId) => {
+exports.playerLeave = async (socketId) => {
   const index = players.findIndex((player) => player.socketId === socketId);
+  const user = await UserModel.findById(players[index].userId);
+  if (user) {
+    if (user.highScore < players[index].score) {
+      user.highScore = players[index].score;
+    }
+    user.coins += Math.floor(players[index].score / 10);
+    user.save();
+  }
   if (index !== -1) {
     return players.splice(index, 1)[0];
   }

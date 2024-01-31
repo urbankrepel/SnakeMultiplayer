@@ -5,7 +5,7 @@
 <nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">GameSite</a>
-    <a class="btn btn-play-game" href="/">Play Game</a>
+    <a class="btn btn-play-game" href="/game">Play Game</a>
     <div class="ml-auto d-flex align-items-center">
       <span class="coins me-3">Coins: <%= user.coins %></span>
       <a class="nav-link me-3" href="#"><%= user.username %></a>
@@ -35,7 +35,9 @@
           class="list-group-item d-flex justify-content-between align-items-center"
         >
           Player1
-          <span class="badge badge-primary badge-pill">Score: 15000</span>
+          <span class="badge badge-primary badge-pill text-dark"
+            >Score: 15000</span
+          >
         </li>
         <!-- More players... -->
       </ul>
