@@ -7,3 +7,60 @@
   width: 100%;
   height: 100%;
 }
+
+#control-buttons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  background: transparent;
+  width: 200px;
+  height: 200px;
+}
+
+#up-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: transparent;
+  border: none;
+}
+
+#down-button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: transparent;
+  border: none;
+}
+
+#left-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: transparent;
+  border: none;
+}
+
+#right-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: transparent;
+  border: none;
+}
+
+#up-button:active,
+#down-button:active,
+#left-button:active,
+#right-button:active {
+  background: rgba(0, 0, 0, 0.2);
+}

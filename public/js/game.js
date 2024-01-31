@@ -34,6 +34,22 @@ function setup() {
   scale(scale);
 
   socketConnect();
+
+  document.getElementById("up-button").addEventListener("click", () => {
+    direction = "up";
+  });
+
+  document.getElementById("down-button").addEventListener("click", () => {
+    direction = "down";
+  });
+
+  document.getElementById("left-button").addEventListener("click", () => {
+    direction = "left";
+  });
+
+  document.getElementById("right-button").addEventListener("click", () => {
+    direction = "right";
+  });
 }
 
 function draw() {

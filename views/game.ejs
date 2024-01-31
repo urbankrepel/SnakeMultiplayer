@@ -1,6 +1,49 @@
 <link rel="stylesheet" href="/css/game.css" />
 
-<div id="game-container"></div>
+<div id="game-container">
+  <div id="control-buttons">
+    <svg
+      width="50"
+      height="50"
+      viewBox="0 0 24 24"
+      id="up-button"
+      fill="#fff"
+      style="cursor: pointer"
+    >
+      <path d="M12 4l-8 8h16z" />
+    </svg>
+    <svg
+      width="50"
+      height="50"
+      viewBox="0 0 24 24"
+      id="down-button"
+      fill="#fff"
+      style="cursor: pointer; transform: rotate(180deg); display: block"
+    >
+      <path d="M12 4l-8 8h16z" />
+    </svg>
+    <svg
+      width="50"
+      height="50"
+      viewBox="0 0 24 24"
+      id="left-button"
+      fill="#fff"
+      style="cursor: pointer; transform: rotate(270deg); display: block"
+    >
+      <path d="M12 4l-8 8h16z" />
+    </svg>
+    <svg
+      width="50"
+      height="50"
+      viewBox="0 0 24 24"
+      id="right-button"
+      fill="#fff"
+      style="cursor: pointer; transform: rotate(90deg); display: block"
+    >
+      <path d="M12 4l-8 8h16z" />
+    </svg>
+  </div>
+</div>
 <input type="hidden" id="userId" value="<%= user.id %>" />
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/snake.js"></script>

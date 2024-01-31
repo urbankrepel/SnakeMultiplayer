@@ -35,6 +35,12 @@ exports.playerLeave = async (socketId) => {
     user.coins += Math.floor(players[index].score / 10);
     user.save();
   }
+  // add food to the world where player died
+  const player = players[index];
+  for (let i = 0; i < player.length; i++) {
+    const pos = player.body[i];
+    food.push({ x: pos.x, y: pos.y });
+  }
   if (index !== -1) {
     return players.splice(index, 1)[0];
   }
@@ -62,6 +68,8 @@ exports.getWholeWorld = () => {
 exports.getVisibleAreaForPlayer = (player, isDead, viewWidth, viewHeight) => {
   const viewSize = 500; // Size of the area that the player can see
   const worldSize = this.getWorldSize(); // Total world size
+
+  if (!player) return;
 
   // Calculate the area bounds based on the player's position
   let minX = Math.max(player.x - viewWidth / 2, -20);
@@ -135,6 +143,7 @@ const getObjectsInArea = (minX, minY, maxX, maxY, currentPlayer) => {
 exports.playerMove = (socketId, data) => {
   const direction = data.direction;
   const player = players.find((player) => player.socketId === socketId);
+  if (!player) return;
   const moveDistance = player.size / 2;
   const foodEaten = food.find((foodItem) => {
     return (
