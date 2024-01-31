@@ -1,11 +1,8 @@
 const submitForm = (event, form) => {
-  console.log(form);
   event.preventDefault();
-  console.log("Form submitted!");
   const data = new FormData(form);
   const url = form.action;
   const method = form.method;
-  console.log(JSON.stringify(Object.fromEntries(data.entries())));
   return fetch(url, {
     method: method,
     headers: {

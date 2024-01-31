@@ -18,7 +18,9 @@ const socketController = (io) => {
       const player = gameController.getPlayer(socket.id);
       const visibleArea = gameController.getVisibleAreaForPlayer(
         player,
-        isDead
+        isDead,
+        data.width,
+        data.height
       );
       socket.emit("visibleArea", visibleArea, socket.id);
       socket

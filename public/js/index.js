@@ -51,7 +51,6 @@ renderWholeWorld = (wholeWorld) => {
 
   //Render border
   fill(255);
-  // console.log(offset);
   if (offset.x < 0) {
     const x = 0;
     const y = 0;

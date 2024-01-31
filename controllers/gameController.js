@@ -59,15 +59,15 @@ exports.getWholeWorld = () => {
   };
 };
 
-exports.getVisibleAreaForPlayer = (player, isDead) => {
+exports.getVisibleAreaForPlayer = (player, isDead, viewWidth, viewHeight) => {
   const viewSize = 500; // Size of the area that the player can see
   const worldSize = this.getWorldSize(); // Total world size
 
   // Calculate the area bounds based on the player's position
-  let minX = Math.max(player.x - viewSize / 2, -20);
-  let minY = Math.max(player.y - viewSize / 2, -20);
-  let maxX = Math.min(player.x + viewSize / 2, worldSize);
-  let maxY = Math.min(player.y + viewSize / 2, worldSize);
+  let minX = Math.max(player.x - viewWidth / 2, -20);
+  let minY = Math.max(player.y - viewHeight / 2, -20);
+  let maxX = Math.min(player.x + viewWidth / 2, worldSize);
+  let maxY = Math.min(player.y + viewHeight / 2, worldSize);
 
   // Get the objects within this area
   let visibleObjects = getObjectsInArea(minX, minY, maxX, maxY, player);

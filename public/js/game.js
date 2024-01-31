@@ -26,10 +26,12 @@ function preload() {
   borderVerticalAsset = loadImage("/images/wall_block_32_5.png");
 }
 
+const userScale = 2;
+
 function setup() {
-  createCanvas(1000, 1000);
+  createCanvas(1000, 1000).parent("game-container");
   background(0);
-  scale(2);
+  scale(scale);
 
   socketConnect();
 }
@@ -45,15 +47,19 @@ function draw() {
     direction = "down";
   }
   if (frameMove <= 0) {
-    move(direction);
+    move(direction, windowWidth / userScale, windowHeight / userScale);
     frameMove = 5;
   }
-  scale(2);
+  scale(userScale);
   frameMove--;
 }
 
-function move(direction) {
-  socket.emit("playerMove", { direction: direction });
+function move(direction, width, height) {
+  socket.emit("playerMove", {
+    direction: direction,
+    width: width,
+    height: height,
+  });
 }
 
 function socketConnect() {
@@ -70,22 +76,31 @@ function socketConnect() {
   });
 }
 
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  // Redraw the canvas content if necessary
+}
+
 renderVisibleArea = (visibleArea) => {
   // Render the background
+  resizeCanvas(windowWidth, windowHeight);
   background(0);
+  // change
   const offset = visibleArea.offset;
   const WORLD_SIZE = 1000;
-  const viewSize = 500;
-
+  const viewSize = {
+    width: windowWidth / userScale, // Changed to windowWidth
+    height: windowHeight / userScale, // Changed to windowHeight
+  };
   //Render border
   fill(255);
-  // console.log(offset);
   if (offset.x < 0) {
     const x = 0;
     const y = 0;
     const w = 20;
-    let h = viewSize;
-    if (viewSize > WORLD_SIZE - offset.y) {
+    let h = viewSize.height; // Changed to viewSize.height
+    if (viewSize.height > WORLD_SIZE - offset.y) {
+      // Adjusted to viewSize.height
       h = WORLD_SIZE - offset.y + 20;
     }
     image(borderVerticalAsset, x, y, w, h);
@@ -93,29 +108,34 @@ renderVisibleArea = (visibleArea) => {
   if (offset.y < 0) {
     const x = 0;
     const y = 0;
-    let w = viewSize;
+    let w = viewSize.width; // Changed to viewSize.width
     const h = 20;
-    if (viewSize > WORLD_SIZE - offset.x) {
+    if (viewSize.width > WORLD_SIZE - offset.x) {
+      // Adjusted to viewSize.width
       w = WORLD_SIZE - offset.x + 20;
     }
     image(borderHorizontalAsset, x, y, w, h);
   }
-  if (offset.x + viewSize >= WORLD_SIZE) {
+  if (offset.x + viewSize.width >= WORLD_SIZE) {
+    // Adjusted to viewSize.width
     const x = WORLD_SIZE - offset.x + 20;
     const y = 0;
     const w = 20;
-    let h = viewSize;
-    if (viewSize > WORLD_SIZE - offset.y) {
+    let h = viewSize.height; // Changed to viewSize.height
+    if (viewSize.height > WORLD_SIZE - offset.y) {
+      // Adjusted to viewSize.height
       h = WORLD_SIZE - offset.y + 20;
     }
     image(borderVerticalAsset, x, y, w, h);
   }
-  if (offset.y + viewSize > WORLD_SIZE) {
+  if (offset.y + viewSize.height > WORLD_SIZE) {
+    // Adjusted to viewSize.height
     const x = 0;
     const y = WORLD_SIZE - offset.y + 20;
-    let w = viewSize;
+    let w = viewSize.width; // Changed to viewSize.width
     const h = 20;
-    if (viewSize > WORLD_SIZE - offset.x) {
+    if (viewSize.width > WORLD_SIZE - offset.x) {
+      // Adjusted to viewSize.width
       w = WORLD_SIZE - offset.x + 20;
     }
     image(borderHorizontalAsset, x, y, w, h);
@@ -170,9 +190,12 @@ renderVisibleArea = (visibleArea) => {
     }
   }
 
+  // The rest of the rendering for objects and players remains largely unchanged.
+  // Just ensure any reference to positioning or sizing that might have implicitly relied on viewSize being uniform/square is reconsidered.
+
   if (player.isDead) {
     fill(255);
-    text("You are dead", viewSize / 2 - 50, viewSize / 2);
+    text("You are dead", viewSize.width / 2 - 50, viewSize.height / 2); // Centered using viewSize.width and viewSize.height
     deadCountdown--;
     if (deadCountdown <= 0) {
       window.location.href = "/home";
