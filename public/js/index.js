@@ -21,7 +21,8 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(1020, 1020);
+  createCanvas(1000, 1000).parent("game-container");
+  // connect canvas to div
   background(0);
 
   socketConnect();
@@ -129,5 +130,17 @@ renderWholeWorld = (wholeWorld) => {
   for (let i = 0; i < food.length; i++) {
     const foodItem = food[i];
     image(foodAsset, foodItem.x - offset.x, foodItem.y - offset.y, 10, 10);
+  }
+
+  //   Show Leaderboard
+  document.getElementById("leaderboard").innerHTML = "";
+  for (let i = 0; i < players.length; i++) {
+    const player = players[i];
+    const userTemplate = document
+      .getElementById("user-template")
+      .cloneNode(true).content;
+    userTemplate.querySelector("#username").innerText = player.name;
+    userTemplate.querySelector("#userscore").innerText = player.score;
+    document.getElementById("leaderboard").appendChild(userTemplate);
   }
 };

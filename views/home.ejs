@@ -29,18 +29,23 @@
   <div class="row">
     <div class="col">
       <h3 class="leaderboard-title">Game Leaderboard</h3>
-      <ul class="list-group">
-        <!-- List of players and scores -->
+      <template id="user-template">
         <li
           class="list-group-item d-flex justify-content-between align-items-center"
         >
-          Player1
-          <span class="badge badge-primary badge-pill text-dark"
+          <span id="username">Player1</span>
+          <span class="badge badge-primary badge-pill text-dark" id="userscore"
             >Score: 15000</span
           >
         </li>
+      </template>
+      <ul class="list-group" id="leaderboard">
+        <!-- List of players and scores -->
         <!-- More players... -->
       </ul>
     </div>
   </div>
 </div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/home.js"></script>
