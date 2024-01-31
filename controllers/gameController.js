@@ -26,6 +26,7 @@ exports.playerJoin = (name, socketId, userId) => {
 
 exports.playerLeave = async (socketId) => {
   const index = players.findIndex((player) => player.socketId === socketId);
+  if (index === -1) return;
   const user = await UserModel.findById(players[index].userId);
   if (user) {
     if (user.highScore < players[index].score) {
@@ -49,6 +50,13 @@ exports.getAlivePlayers = () => {
 
 exports.getPlayer = (socketId) => {
   return players.find((player) => player.socketId === socketId);
+};
+
+exports.getWholeWorld = () => {
+  return {
+    players: players,
+    food: food,
+  };
 };
 
 exports.getVisibleAreaForPlayer = (player, isDead) => {

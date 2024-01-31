@@ -61,6 +61,7 @@ function socketConnect() {
   socket = io.connect("http://localhost:3000");
 
   socket.on("connect", () => {
+    socket.emit("joinRoom", "gameRoom");
     socket.emit("setUserToPlayer", userId);
   });
 

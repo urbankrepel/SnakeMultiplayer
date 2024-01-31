@@ -21,3 +21,12 @@ exports.userHomePage = async (req, res) => {
     res
   );
 };
+
+exports.indexPage = async (req, res) => {
+  renderWithLayout(
+    path.join(__dirname, "../views/index.ejs"),
+    {},
+    "Game view",
+    res
+  );
+};
