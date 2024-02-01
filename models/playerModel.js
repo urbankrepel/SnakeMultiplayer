@@ -12,6 +12,7 @@ class PlayerModel {
     this.length = 1;
     this.size = 20;
     this.isDead = false;
+    this.eat = false;
   }
 
   updateScore() {

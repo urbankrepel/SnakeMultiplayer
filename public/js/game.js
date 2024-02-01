@@ -12,6 +12,8 @@ let foodAsset;
 let borderHorizontalAsset;
 let borderVerticalAsset;
 
+let eatSound;
+
 let frameMove = 0;
 
 function preload() {
@@ -24,6 +26,7 @@ function preload() {
   foodAsset = loadImage("/images/apple_alt_32.png");
   borderHorizontalAsset = loadImage("/images/wall_block_32_2.png");
   borderVerticalAsset = loadImage("/images/wall_block_32_5.png");
+  eatSound = loadSound("/sounds/eat.mp3");
 }
 
 let userScale = 2;
@@ -216,5 +219,10 @@ renderVisibleArea = (visibleArea) => {
     if (deadCountdown <= 0) {
       window.location.href = "/home";
     }
+  }
+
+  if (player.eat) {
+    console.log(eatSound);
+    eatSound.play();
   }
 };

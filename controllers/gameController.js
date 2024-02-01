@@ -92,6 +92,7 @@ exports.getVisibleAreaForPlayer = (player, isDead, viewWidth, viewHeight) => {
       body: player.body,
       length: player.length,
       isDead: isDead,
+      eat: player.eat,
     },
     objects: visibleObjects,
   };
@@ -144,6 +145,7 @@ exports.playerMove = (socketId, data) => {
   const direction = data.direction;
   const player = players.find((player) => player.socketId === socketId);
   if (!player) return;
+  player.eat = false;
   const moveDistance = player.size / 2;
   const foodEaten = food.find((foodItem) => {
     return (
@@ -158,6 +160,7 @@ exports.playerMove = (socketId, data) => {
     player.updateScore();
     food = food.filter((foodItem) => foodItem !== foodEaten);
     eat = true;
+    player.eat = true;
   }
   if (direction === "left") {
     return player.move(player.x - moveDistance, player.y, eat);
