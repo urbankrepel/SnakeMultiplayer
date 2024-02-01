@@ -13,6 +13,7 @@ let borderHorizontalAsset;
 let borderVerticalAsset;
 
 let eatSound;
+let dieSound;
 
 let frameMove = 0;
 
@@ -27,6 +28,7 @@ function preload() {
   borderHorizontalAsset = loadImage("/images/wall_block_32_2.png");
   borderVerticalAsset = loadImage("/images/wall_block_32_5.png");
   eatSound = loadSound("/sounds/eat.mp3");
+  dieSound = loadSound("/sounds/die.mp3");
 }
 
 let userScale = 2;
@@ -215,6 +217,9 @@ renderVisibleArea = (visibleArea) => {
   if (player.isDead) {
     fill(255);
     text("You are dead", viewSize.width / 2 - 50, viewSize.height / 2); // Centered using viewSize.width and viewSize.height
+    if (deadCountdown === 20) {
+      dieSound.play();
+    }
     deadCountdown--;
     if (deadCountdown <= 0) {
       window.location.href = "/home";
@@ -222,7 +227,6 @@ renderVisibleArea = (visibleArea) => {
   }
 
   if (player.eat) {
-    console.log(eatSound);
     eatSound.play();
   }
 };
