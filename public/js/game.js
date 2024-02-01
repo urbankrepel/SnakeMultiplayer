@@ -213,6 +213,10 @@ renderVisibleArea = (visibleArea) => {
 
   // The rest of the rendering for objects and players remains largely unchanged.
   // Just ensure any reference to positioning or sizing that might have implicitly relied on viewSize being uniform/square is reconsidered.
+  if (player.score) {
+    fill(255);
+    text("Score: " + player.score, viewSize.width - 100, 50);
+  }
 
   if (player.isDead) {
     fill(255);

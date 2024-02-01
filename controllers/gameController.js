@@ -66,7 +66,6 @@ exports.getWholeWorld = () => {
 };
 
 exports.getVisibleAreaForPlayer = (player, isDead, viewWidth, viewHeight) => {
-  const viewSize = 500; // Size of the area that the player can see
   const worldSize = this.getWorldSize(); // Total world size
 
   if (!player) return;
@@ -93,6 +92,7 @@ exports.getVisibleAreaForPlayer = (player, isDead, viewWidth, viewHeight) => {
       length: player.length,
       isDead: isDead,
       eat: player.eat,
+      score: player.score,
     },
     objects: visibleObjects,
   };
