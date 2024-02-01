@@ -32,14 +32,14 @@ router.post(
       .withMessage("Please enter a valid email address"),
     body("password")
       .trim()
-      .isLength({ min: 3 })
+      .isLength({ min: 6 })
       .escape()
-      .withMessage("Password must be at least 3 characters long"),
+      .withMessage("Password must be at least 6 characters long"),
     body("confirmPassword")
       .trim()
-      .isLength({ min: 3 })
+      .isLength({ min: 6 })
       .escape()
-      .withMessage("Confirm password must be at least 3 characters long"),
+      .withMessage("Confirm password must be at least 6 characters long"),
   ],
   userController.createUser
 );

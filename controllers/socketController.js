@@ -28,7 +28,11 @@ const socketController = (io) => {
         .emit("wholeWorld", gameController.getWholeWorld());
     });
     socket.on("setUserToPlayer", (userId) => {
-      gameController.setUserToPlayer(socket.id, userId);
+      const player = gameController.setUserToPlayer(socket.id, userId);
+      if (player == null) {
+        // disconnect user
+        socket.disconnect();
+      }
     });
     socket.on("disconnect", async () => {
       await gameController.playerLeave(socket.id);

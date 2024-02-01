@@ -180,8 +180,10 @@ exports.generateFood = () => {
 
 exports.setUserToPlayer = async (socketId, userId) => {
   const player = players.find((player) => player.socketId === socketId);
+  if (!player) return null;
   player.userId = userId;
   const user = await UserModel.findById(userId);
+  if (!user) return null;
   player.name = user.username;
   return player;
 };
