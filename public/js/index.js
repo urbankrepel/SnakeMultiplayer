@@ -21,7 +21,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(1000, 1000).parent("game-container");
+  createCanvas(1020, 1020).parent("game-container");
   // connect canvas to div
   background(0);
 

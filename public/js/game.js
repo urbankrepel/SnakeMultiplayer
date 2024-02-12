@@ -85,7 +85,7 @@ function move(direction, width, height) {
 
 function socketConnect() {
   const userId = document.getElementById("userId").value;
-  socket = io.connect("http://localhost:3000");
+  socket = io.connect("http://172.15.1.151:3000");
 
   socket.on("connect", () => {
     socket.emit("joinRoom", "gameRoom");
