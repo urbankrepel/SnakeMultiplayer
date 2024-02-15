@@ -7,6 +7,14 @@
 .coins {
   color: #28a745 !important;
 }
+
+.btn {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
 .btn-play-game {
   background-color: #28a745;
   border-color: #28a745;
