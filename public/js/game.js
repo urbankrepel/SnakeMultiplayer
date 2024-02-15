@@ -11,11 +11,18 @@ let otherSnakeBodyAsset;
 let foodAsset;
 let borderHorizontalAsset;
 let borderVerticalAsset;
+let crownAsset;
 
 let eatSound;
 let dieSound;
 
 let frameMove = 0;
+
+let lerpAmount = 0.2; // Control smoothness of the snake movement
+let foodAnimationProgress = {}; // Track animation progress for each food item
+let foodAnimationSpeed = 0.05; // Control speed of food appearance
+let fadeAmount = 255; // Start fully visible for death animation
+let fadeSpeed = 10; // Control speed of fade out on death
 
 function preload() {
   snakeHeadAsset = loadImage("/images/snake_green_head_32.png");
@@ -29,6 +36,7 @@ function preload() {
   borderVerticalAsset = loadImage("/images/wall_block_32_5.png");
   eatSound = loadSound("/sounds/eat.mp3");
   dieSound = loadSound("/sounds/die.mp3");
+  crownAsset = loadImage("/images/crown.png");
 }
 
 let userScale = 2;
@@ -37,6 +45,7 @@ function setup() {
   createCanvas(1000, 1000).parent("game-container");
   background(0);
   scale(scale);
+  textFont("Press Start 2P");
 
   socketConnect();
 
@@ -85,7 +94,7 @@ function move(direction, width, height) {
 
 function socketConnect() {
   const userId = document.getElementById("userId").value;
-  socket = io.connect("http://172.15.1.151:3000");
+  socket = io.connect("http://localhost:3000");
 
   socket.on("connect", () => {
     socket.emit("joinRoom", "gameRoom");
@@ -103,6 +112,7 @@ function windowResized() {
 }
 
 renderVisibleArea = (visibleArea) => {
+  textFont("Press Start 2P");
   // Render the background
   resizeCanvas(windowWidth, windowHeight);
   background(0);
@@ -113,6 +123,7 @@ renderVisibleArea = (visibleArea) => {
     width: windowWidth / userScale, // Changed to windowWidth
     height: windowHeight / userScale, // Changed to windowHeight
   };
+  const topPlayerUsername = visibleArea.topPlayerUsername;
   //Render border
   fill(255);
   if (offset.x < 0) {
@@ -177,6 +188,7 @@ renderVisibleArea = (visibleArea) => {
           image(headAsset, pos.x - offset.x, pos.y - offset.y, 20, 20);
           // text under the head
           fill(255);
+          textFont("Press Start 2P");
           text(object.username, pos.x - offset.x, pos.y - offset.y + 35);
         } else {
           image(
@@ -188,16 +200,38 @@ renderVisibleArea = (visibleArea) => {
           );
         }
       }
+      if (object.username === topPlayerUsername) {
+        image(
+          crownAsset,
+          object.body[0].x - offset.x,
+          object.body[0].y - offset.y - 20,
+          20,
+          20
+        );
+      }
     } else if (object.type === "food") {
       fill(0, 255, 0);
       // ellipse(object.x - offset.x, object.y - offset.y, 5, 5);
       image(foodAsset, object.x - offset.x, object.y - offset.y, 10, 10);
     }
   }
-
+  const player = visibleArea.playerPosition;
+  if (player.isDead) {
+    fill(255);
+    textFont("Press Start 2P");
+    text("You are dead", viewSize.width / 2 - 50, viewSize.height / 2); // Centered using viewSize.width and viewSize.height
+    if (deadCountdown === 20) {
+      dieSound.play();
+    }
+    const fadeAmount = map(deadCountdown, 20, 0, 255, 0);
+    tint(255, fadeAmount);
+    deadCountdown--;
+    if (deadCountdown <= 0) {
+      window.location.href = "/home";
+    }
+  }
   // Render the player
   fill(255);
-  const player = visibleArea.playerPosition;
   for (let i = player.length - 1; i >= 0; i--) {
     const pos = player.body[i];
     if (i === 0) {
@@ -205,29 +239,30 @@ renderVisibleArea = (visibleArea) => {
       image(headAsset, pos.x - offset.x, pos.y - offset.y, 20, 20);
       // text under the head
       fill(255);
+      textFont("Press Start 2P");
       text(player.username, pos.x - offset.x, pos.y - offset.y + 35);
     } else {
       image(snakeBodyAsset, pos.x - offset.x, pos.y - offset.y, 20, 20);
     }
+  }
+  tint(255, 255);
+
+  if (player.username === topPlayerUsername) {
+    image(
+      crownAsset,
+      player.body[0].x - offset.x,
+      player.body[0].y - offset.y - 20,
+      20,
+      20
+    );
   }
 
   // The rest of the rendering for objects and players remains largely unchanged.
   // Just ensure any reference to positioning or sizing that might have implicitly relied on viewSize being uniform/square is reconsidered.
   if (player.score) {
     fill(255);
+    textFont("Press Start 2P");
     text("Score: " + player.score, viewSize.width - 100, 50);
-  }
-
-  if (player.isDead) {
-    fill(255);
-    text("You are dead", viewSize.width / 2 - 50, viewSize.height / 2); // Centered using viewSize.width and viewSize.height
-    if (deadCountdown === 20) {
-      dieSound.play();
-    }
-    deadCountdown--;
-    if (deadCountdown <= 0) {
-      window.location.href = "/home";
-    }
   }
 
   if (player.eat) {

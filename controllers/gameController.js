@@ -70,6 +70,12 @@ exports.getVisibleAreaForPlayer = (player, isDead, viewWidth, viewHeight) => {
 
   if (!player) return;
 
+  //get me first player by score
+  const sortedPlayers = players
+    .sort((a, b) => b.score - a.score)
+    .filter((player) => !player.isDead);
+  const topPlayerUsername = sortedPlayers[0]?.name;
+
   // Calculate the area bounds based on the player's position
   let minX = Math.max(player.x - viewWidth / 2, -20);
   let minY = Math.max(player.y - viewHeight / 2, -20);
@@ -80,6 +86,7 @@ exports.getVisibleAreaForPlayer = (player, isDead, viewWidth, viewHeight) => {
   let visibleObjects = getObjectsInArea(minX, minY, maxX, maxY, player);
 
   return {
+    topPlayerUsername: topPlayerUsername,
     offset: {
       x: minX,
       y: minY,

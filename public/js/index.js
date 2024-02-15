@@ -31,7 +31,7 @@ function setup() {
 function draw() {}
 
 function socketConnect() {
-  socket = io.connect("http://172.15.1.151:3000");
+  socket = io.connect("http://localhost:3000");
 
   socket.on("connect", () => {
     socket.emit("joinRoom", "viewerRoom");
