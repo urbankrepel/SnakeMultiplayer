@@ -23,9 +23,7 @@ const socketController = (io) => {
         data.height
       );
       socket.emit("visibleArea", visibleArea, socket.id);
-      socket
-        .to("viewerRoom")
-        .emit("wholeWorld", gameController.getWholeWorld());
+       
     });
     socket.on("setUserToPlayer", (userId) => {
       const player = gameController.setUserToPlayer(socket.id, userId);

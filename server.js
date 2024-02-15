@@ -17,6 +17,11 @@ const server = require("http").createServer(app);
 const io = socketIo(server);
 
 app.set("view engine", "ejs");
+// add header for allow origin *
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 app.use(cookieParser());
 app.use(express.json()); // Used to parse JSON bodies
 app.use("/users", userRoutes);
